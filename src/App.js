@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import { read, remove, update } from "./services/services";
+
+import TodoContainer from "./components/TodoContainer";
+import CreateTodo from "./components/CreateTodo";
 
 function App() {
+  const [info, setInfo] = useState();
+  function getTasks() {
+    read().then((response) => setInfo(response));
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Team Task Manager</h1>
+      <CreateTodo setInfo={setInfo} read={read} getTasks={getTasks}/>
+      <TodoContainer
+        info={info}
+        setInfo={setInfo}
+        read={read}
+        remove={remove}
+        update={update}
+        getTasks={getTasks}
+      />
     </div>
   );
 }
